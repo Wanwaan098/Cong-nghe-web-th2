@@ -2,43 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage News</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tin Tức</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1> QUẢN LÝ TIN TỨC </h1>
-    <a href="index.php?controller=news&action=add">Add News</a>
-    <table border="1">
-    <thead>
-        <tr>
-            <th> ID </th>
-            <th> Tiêu đề </th>
-            <th> Nội dung </th> 
-            <th> Loại </th>
-            <th> Ngày tạo </th>
-            <th> Hành động </th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($newsList)): ?>
-            <?php foreach ($newsList as $news): ?>
+    <div class="container mt-5">
+        <h2>Quản lý Tin Tức</h2>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><?= htmlspecialchars($news['id']) ?></td>
-                    <td><?= htmlspecialchars($news['title']) ?></td>
-                    <td><?= htmlspecialchars($news['content']) ?></td>
-                    <td><?= htmlspecialchars($news['category_name']) ?></td>
-                    <td><?= htmlspecialchars($news['created_at']) ?></td>
-                    <td>
-                        <a href="index.php?controller=news&action=edit&id=<?= $news['id'] ?>">Sửa</a>
-                        <a href="index.php?controller=news&action=delete&id=<?= $news['id'] ?>" onclick="return confirm('Xác nhận xoá?')">Xoá</a>
-                    </td>
+                    <th>Tiêu Đề</th>
+                    <th>Ngày Tạo</th>
+                    <th>Hành Động</th>
                 </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="6"> No news available </td>
-            </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                <!-- Giả sử bạn có một danh sách tin tức để hiển thị -->
+                <tr>
+                    <td>Tiêu đề tin tức 1</td>
+                    <td>01/01/2024</td>
+                    <td><a href="#" class="btn btn-primary">Chỉnh sửa</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
