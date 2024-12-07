@@ -21,39 +21,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Danh Sách Tin Tức</title>
-    <link rel="stylesheet" href="/path/to/your/css/style.css"> <!-- Thay thế với đường dẫn tới CSS của bạn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Danh Sách Tin Tức</h1>
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Danh Sách Tin Tức</h1>
 
         <!-- Form tìm kiếm -->
-        <form action="" method="POST">
-            <input type="text" name="category_name" placeholder="Tìm kiếm theo danh mục...">
-            <button type="submit">Tìm kiếm</button>
+        <form action="" method="POST" class="mb-4 d-flex">
+            <input type="text" name="category_name" class="form-control me-2" placeholder="Tìm kiếm theo danh mục...">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>
 
-        <!-- Hiển thị kết quả tìm kiếm -->
-        <?php if (!empty($searchResults)): ?>
-            <h2>Kết quả tìm kiếm</h2>
-            <ul class="news-list">
-                <?php foreach ($searchResults as $news): ?>
-                    <li>
-                        <h2><?= htmlspecialchars($news['title']) ?></h2>
-                        <a href="/views/news/detail.php?id=<?= urlencode($news['id']) ?>">Xem chi tiết</a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <ul class="news-list">
-                <?php foreach ($newsList as $news): ?>
-                    <li>
-                        <h2><?= htmlspecialchars($news['title']) ?></h2>
-                        <a href="/views/news/detail.php?id=<?= urlencode($news['id']) ?>">Xem chi tiết</a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
+        <!-- Hiển thị kết quả -->
+        <div class="row">
+            <?php if (!empty($searchResults)): ?>
+                <h2 class="mb-3">Kết quả tìm kiếm</h2>
+            <?php endif; ?>
+
+            <?php foreach (!empty($searchResults) ? $searchResults : $newsList as $news): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($news['title']) ?></h5>
+                            <a href="/views/news/detail.php?id=<?= urlencode($news['id']) ?>" class="btn btn-primary">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </body>
 </html>
