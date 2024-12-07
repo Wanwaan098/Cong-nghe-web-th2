@@ -1,18 +1,19 @@
-<?php 
+<?php
 require_once __DIR__ . '/../../controllers/HomeController.php';
 
 // Khởi tạo controller
 $homeController = new HomeController();
 
-// Xử lý tìm kiếm
-$searchResults = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoryName = $_POST['category_name'] ?? '';
-    if (!empty($categoryName)) {
-        $searchResults = $homeController->searchNewsByCategoryName($categoryName);
+// Lấy tin tức chi tiết
+if (isset($_GET['id'])) {
+    $newsId = $_GET['id'];
+    $newsDetail = $homeController->getNewsById($newsId);
+
+    if ($newsDetail === false) {
+        die("Tin tức không tồn tại.");
     }
 } else {
-    $newsList = $homeController->getNews();
+    die("ID tin tức không hợp lệ.");
 }
 ?>
 
@@ -20,40 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh Sách Tin Tức</title>
-    <link rel="stylesheet" href="/path/to/your/css/style.css"> <!-- Thay thế với đường dẫn tới CSS của bạn -->
+    <title>Chi Tiết Tin Tức</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Danh Sách Tin Tức</h1>
-
-        <!-- Form tìm kiếm -->
-        <form action="" method="POST">
-            <input type="text" name="category_name" placeholder="Tìm kiếm theo danh mục...">
-            <button type="submit">Tìm kiếm</button>
-        </form>
-
-        <!-- Hiển thị kết quả tìm kiếm -->
-        <?php if (!empty($searchResults)): ?>
-            <h2>Kết quả tìm kiếm</h2>
-            <ul class="news-list">
-                <?php foreach ($searchResults as $news): ?>
-                    <li>
-                        <h2><?= htmlspecialchars($news['title']) ?></h2>
-                        <a href="/views/news/detail.php?id=<?= urlencode($news['id']) ?>">Xem chi tiết</a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <ul class="news-list">
-                <?php foreach ($newsList as $news): ?>
-                    <li>
-                        <h2><?= htmlspecialchars($news['title']) ?></h2>
-                        <a href="/views/news/detail.php?id=<?= urlencode($news['id']) ?>">Xem chi tiết</a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
+    <div class="container py-5">
+        <h1 class="mb-4 text-center"><?= htmlspecialchars($newsDetail['title']) ?></h1>
+        
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <img src="<?= htmlspecialchars($newsDetail['image']) ?>" alt="<?= htmlspecialchars($newsDetail['title']) ?>" class="img-fluid mb-4 rounded">
+                <p class="fs-5"><?= nl2br(htmlspecialchars($newsDetail['content'])) ?></p>
+                <p><strong>Ngày đăng:</strong> <?= htmlspecialchars($newsDetail['created_at']) ?></p>
+                <p><strong>Danh mục:</strong> <?= htmlspecialchars($newsDetail['category_name']) ?></p>
+                <a href="/views/home/index.php" class="btn btn-secondary mt-3">Quay lại danh sách</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
