@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../controllers/HomeController.php';
 // Khởi tạo controller
 $homeController = new HomeController();
 
+
 // Xử lý tìm kiếm
 $searchResults = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
